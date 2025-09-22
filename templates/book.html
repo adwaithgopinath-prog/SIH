@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Session - Patient Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #00695c;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #00695c;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 12px;
+      background: #00695c;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #004d40;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #00695c;
+      color: white;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    .flash-messages {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #00695c;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+      color: #004d40;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Book a Session</h1>
+</header>
+
+<div class="container">
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Booking Form -->
+  <form method="POST" action="{{ url_for('book') }}">
+    <label for="start_time">Start Time:</label>
+    <input type="datetime-local" id="start_time" name="start_time" required>
+
+    <label for="end_time">End Time:</label>
+    <input type="datetime-local" id="end_time" name="end_time" required>
+
+    <label for="notes">Notes (optional):</label>
+    <textarea id="notes" name="notes" rows="3"></textarea>
+
+    <button type="submit">Book Session</button>
+  </form>
+
+  <!-- Booked Sessions Table -->
+  <h2>Your Bookings</h2>
+  {% if bookings %}
+    <table>
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td>{{ b.start_time.strftime("%Y-%m-%d %H:%M") }}</td>
+          <td>{{ b.end_time.strftime("%Y-%m-%d %H:%M") }}</td>
+          <td>{{ b.status }}</td>
+          <td>{{ b.notes or "-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No sessions booked yet.</p>
+  {% endif %}
+
+  <a href="{{ url_for('patient_dashboard') }}" class="back-link">Back to Dashboard</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule - Patient Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f3;
+    }
+
+    header {
+      background: #00695c;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #00695c;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .summary-cards {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 180px;
+      background: #e0f2f1;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      margin: 10px 0;
+      font-size: 28px;
+      color: #004d40;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: #004d40;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #00695c;
+      color: white;
+    }
+
+    tr:hover { background: #f1f1f1; }
+
+    .status-confirmed {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    .status-canceled {
+      color: #c62828;
+      font-weight: bold;
+    }
+
+    .status-pending {
+      color: #f9a825;
+      font-weight: bold;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #00695c;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+      color: #004d40;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Schedule</h1>
+</header>
+
+<div class="container">
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="card">
+      <h2>{{ total_sessions }}</h2>
+      <p>Total Sessions</p>
+    </div>
+    <div class="card">
+      <h2>{{ upcoming_sessions }}</h2>
+      <p>Upcoming Sessions</p>
+    </div>
+    <div class="card">
+      <h2>{{ completed_sessions }}</h2>
+      <p>Completed Sessions</p>
+    </div>
+    <div class="card">
+      <h2>{{ canceled_sessions }}</h2>
+      <p>Canceled Sessions</p>
+    </div>
+  </div>
+
+  <!-- Schedule Table -->
+  <h2>Session Details</h2>
+  {% if bookings %}
+  <table>
+    <thead>
+      <tr>
+        {% if role == 'patient' %}
+          <th>Therapist</th>
+        {% else %}
+          <th>Patient</th>
+        {% endif %}
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        {% if role == 'patient' %}
+          <td>{{ b.therapist.username }}</td>
+        {% else %}
+          <td>{{ b.patient.username }}</td>
+        {% endif %}
+        <td>{{ b.start_time.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td>{{ b.end_time.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td class="status-{{ b.status }}">{{ b.status.capitalize() }}</td>
+        <td>{{ b.notes or "-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>No sessions scheduled.</p>
+  {% endif %}
+
+  <a href="{{ url_for('patient_dashboard') }}" class="back-link">Back to Dashboard</a>
+</div>
+
+</body>
+</html>

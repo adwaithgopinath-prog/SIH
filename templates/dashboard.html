@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AyurSutra - Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #00695c;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background: #004d40;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover { text-decoration: underline; }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th { background: #00695c; color: white; }
+    tr:hover { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome, {{ username }}!</h1>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    {% if role == 'patient' %}
+      <a href="{{ url_for('book') }}">Book Session</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+
+  <div class="container">
+    <h2>Your Bookings</h2>
+    {% if bookings %}
+      <table>
+        <thead>
+          <tr>
+            {% if role == 'patient' %}
+              <th>Therapist</th>
+            {% else %}
+              <th>Patient</th>
+            {% endif %}
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in bookings %}
+          <tr>
+            {% if role == 'patient' %}
+              <td>{{ b.therapist.username }}</td>
+            {% else %}
+              <td>{{ b.patient.username }}</td>
+            {% endif %}
+            <td>{{ b.start_time.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td>{{ b.end_time.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td>{{ b.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No bookings yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Dashboard - AyurSutra</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f7f5;
+    }
+
+    header {
+      background: #00695c;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Flash messages */
+    .flash-messages {
+      width: 90%;
+      max-width: 900px;
+      margin: 20px auto;
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 90%;
+      max-width: 900px;
+      margin: 20px auto;
+      background: #ddd;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+      height: 25px;
+      background: #00695c;
+      line-height: 25px;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 25px 0 0 25px;
+    }
+
+    /* Sections grid */
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    .section-card {
+      display: block;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .section-card h2 {
+      margin-bottom: 15px;
+      color: #00695c;
+      font-size: 22px;
+    }
+
+    .section-card p {
+      color: #333;
+      font-size: 14px;
+    }
+
+    /* Quick action buttons */
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px auto;
+      width: 90%;
+      max-width: 900px;
+    }
+
+    .quick-actions a {
+      text-decoration: none;
+      background: #00695c;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: 0.3s;
+      text-align: center;
+      min-width: 150px;
+      display: inline-block;
+    }
+
+    .quick-actions a:hover {
+      background: #004d40;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #004d40;
+      color: white;
+      margin-top: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .sections {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Welcome, {{ current_user.username if current_user.is_authenticated else 'Guest' }}
+  </header>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" style="width: {{ progress_percent if progress_percent is defined else 0 }}%">
+      {{ progress_percent if progress_percent is defined else 0 }}% Completed
+    </div>
+  </div>
+
+  <!-- Main Sections -->
+  <div class="sections">
+    <a class="section-card" href="{{ url_for('book') }}">
+      <h2>Book a Session</h2>
+      <p>Schedule a new therapy session with your therapist.</p>
+    </a>
+
+    <a class="section-card" href="{{ url_for('schedule') }}">
+      <h2>View Schedule</h2>
+      <p>Check your upcoming and past appointments.</p>
+    </a>
+
+    <a class="section-card" href="{{ url_for('messages') }}">
+      <h2>Messages</h2>
+      <p>Read messages from your therapist.</p>
+    </a>
+
+    <a class="section-card" href="{{ url_for('reports') }}">
+      <h2>Reports</h2>
+      <p>View your health progress reports and summaries.</p>
+    </a>
+  </div>
+
+  <!-- Quick Action Buttons -->
+  <div class="quick-actions">
+    <a href="{{ url_for('book') }}">Book</a>
+    <a href="{{ url_for('schedule') }}">Schedule</a>
+    <a href="{{ url_for('messages') }}">Messages</a>
+    <a href="{{ url_for('reports') }}">Reports</a>
+  </div>
+
+  <footer>
+    AyurSutra &copy; 2025
+  </footer>
+
+</body>
+</html>

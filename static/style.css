@@ -1,0 +1,79 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    color: #333;
+}
+
+/* Container for sections */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: #00695c;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+button, .btn {
+    background: #00695c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover, .btn:hover {
+    background: #004d40;
+}
+
+/* Cards / Sections */
+.card {
+    background: white;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Forms */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Flash messages */
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.alert.success {
+    background: #c8e6c9;
+    color: #256029;
+}
+.alert.danger {
+    background: #ffcdd2;
+    color: #c62828;
+}
