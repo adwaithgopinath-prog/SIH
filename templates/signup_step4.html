@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup - Step 4 | Review & Submit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .header {
+      background: #004d40;
+      color: #fff;
+      text-align: center;
+      padding: 25px 0;
+      font-size: 28px;
+      font-weight: 700;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    h2 {
+      color: #00695c;
+      margin-bottom: 25px;
+      font-size: 22px;
+      border-bottom: 2px solid #e0f2f1;
+      padding-bottom: 8px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: #004d40;
+      font-size: 14px;
+      text-transform: capitalize;
+    }
+
+    .field input, .field textarea, .field select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #f7f9fa;
+      font-size: 14px;
+      pointer-events: none; /* read-only */
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .buttons {
+      margin-top: 40px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .buttons button {
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-back {
+      background: #c62828;
+      color: white;
+    }
+
+    .btn-back:hover {
+      background: #b71c1c;
+    }
+
+    .btn-submit {
+      background: #00695c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background: #004d40;
+    }
+
+    @media(max-width: 950px) {
+      .cards {
+        flex-direction: column;
+      }
+      .card {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">Signup - Step 4: Review & Submit</div>
+
+<div class="container">
+  <form method="POST" action="{{ url_for('signup_step4') }}">
+    <div class="cards">
+
+      <!-- Personal Info Card -->
+      <div class="card">
+        <h2>Personal Information</h2>
+
+        {% set personal_info = session.get('personal_info', {}) %}
+        {% for key, value in personal_info.items() %}
+          <div class="field">
+            <label>{{ key.replace('_',' ').title() }}</label>
+            {% if key == 'password' %}
+              <input type="password" value="{{ value }}">
+            {% else %}
+              <input type="text" value="{{ value }}">
+            {% endif %}
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Medical & Lifestyle Card -->
+      <div class="card">
+        <h2>Medical & Lifestyle</h2>
+        {% for key, value in session.get('medical_history', {}).items() %}
+          <div class="field">
+            <label>{{ key.replace('_',' ').title() }}</label>
+            {% if value is string %}
+              <input type="text" value="{{ value }}">
+            {% else %}
+              <textarea>{{ value }}</textarea>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="btn-back" onclick="window.history.back();">Back</button>
+      <button type="submit" class="btn-submit">Complete Signup</button>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

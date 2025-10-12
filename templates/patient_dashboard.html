@@ -1,200 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Patient Dashboard - AyurSutra</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    /* General Styles */
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f2f7f5;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Dashboard - AyurSutra</title>
 
-    header {
-      background: #00695c;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 28px;
-      font-weight: bold;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-    }
+<!-- Fonts & Chart.js -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    /* Flash messages */
-    .flash-messages {
-      width: 90%;
-      max-width: 900px;
-      margin: 20px auto;
-      color: red;
-      font-weight: bold;
-    }
+<style>
+/* =============== RESET =============== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    /* Progress Bar */
-    .progress-container {
-      width: 90%;
-      max-width: 900px;
-      margin: 20px auto;
-      background: #ddd;
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-    }
+/* =============== BODY =============== */
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: linear-gradient(135deg, #6A11CB 0%, #2575FC 50%, #00C9A7 100%);
+  color: #222;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  background-attachment: fixed;
+}
 
-    .progress-bar {
-      height: 25px;
-      background: #00695c;
-      line-height: 25px;
-      color: white;
-      text-align: center;
-      font-weight: bold;
-      border-radius: 25px 0 0 25px;
-    }
+/* =============== HEADER =============== */
+header {
+  width: 100%;
+  padding: 50px 0 40px;
+  background: linear-gradient(90deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9));
+  color: #f9fbff;
+  text-align: center;
+  font-size: 38px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1.2px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.25);
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  text-shadow: 1px 1px 8px rgba(0,0,0,0.25);
+}
 
-    /* Sections grid */
-    .sections {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      width: 90%;
-      max-width: 900px;
-      margin: 30px auto;
-    }
+/* =============== NAVBAR =============== */
+.navbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  border-radius: 0 0 30px 30px;
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: 0.3s;
+}
 
-    .section-card {
-      display: block;
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
+.navbar a {
+  text-decoration: none;
+  margin: 0 25px;
+  font-weight: 600;
+  color: #f1f6ff;
+  font-family: 'Poppins', sans-serif;
+  transition: 0.3s;
+  font-size: 16px;
+  position: relative;
+}
 
-    .section-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-    }
+.navbar a::after {
+  content: '';
+  display: block;
+  width: 0%;
+  height: 3px;
+  background: #00C9A7;
+  transition: width 0.3s;
+  border-radius: 2px;
+  margin-top: 3px;
+}
 
-    .section-card h2 {
-      margin-bottom: 15px;
-      color: #00695c;
-      font-size: 22px;
-    }
+.navbar a:hover {
+  color: #00f5d4;
+}
+.navbar a:hover::after {
+  width: 100%;
+}
 
-    .section-card p {
-      color: #333;
-      font-size: 14px;
-    }
+/* =============== MAIN =============== */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 25px;
+}
 
-    /* Quick action buttons */
-    .quick-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin: 30px auto;
-      width: 90%;
-      max-width: 900px;
-    }
+/* =============== PROFILE SECTION =============== */
+.profile-container {
+  background: rgba(255,255,255,0.85);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-top: 6px solid #6A11CB;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+  margin-bottom: 60px;
+}
 
-    .quick-actions a {
-      text-decoration: none;
-      background: #00695c;
-      color: white;
-      padding: 15px 30px;
-      border-radius: 50px;
-      font-weight: bold;
-      transition: 0.3s;
-      text-align: center;
-      min-width: 150px;
-      display: inline-block;
-    }
+.profile-container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+}
 
-    .quick-actions a:hover {
-      background: #004d40;
-    }
+.profile-container h2 {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-size: 26px;
+  color: #5a0bb4;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #004d40;
-      color: white;
-      margin-top: 40px;
-    }
+.profile-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .sections {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.profile-details div {
+  background: linear-gradient(135deg, #f8f9ff, #eef4ff);
+  padding: 15px 20px;
+  border-radius: 15px;
+  font-size: 15px;
+  color: #2a2a2a;
+  border: 1px solid #d6d9ff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+
+.profile-details div strong {
+  color: #2575FC;
+}
+
+.profile-details div:hover {
+  transform: scale(1.03);
+  background: linear-gradient(135deg, #e9f5ff, #f6edff);
+}
+
+/* =============== PROGRESS CHART =============== */
+.progress-chart-container {
+  background: rgba(255,255,255,0.9);
+  border-radius: 25px;
+  padding: 30px 25px;
+  margin-bottom: 60px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border-top: 6px solid #00C9A7;
+  text-align: center;
+}
+
+.progress-chart-container h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #00b4d8;
+  margin-bottom: 20px;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+/* Smaller Chart Style */
+canvas {
+  max-width: 360px;
+  max-height: 180px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* =============== SECTION CARDS =============== */
+.sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-bottom: 70px;
+}
+
+.section-card {
+  background: linear-gradient(135deg, #2575FC, #6A11CB);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 30px 25px;
+  text-align: center;
+  transition: 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.section-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, #00C9A7, #2575FC);
+}
+
+.section-card h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 19px;
+  margin-bottom: 10px;
+  color: #f1f6ff;
+}
+
+.section-card p {
+  font-size: 14px;
+  color: #cfe4ff;
+}
+
+/* =============== QUICK ACTIONS =============== */
+.quick-actions {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.quick-actions a {
+  display: inline-block;
+  margin: 12px;
+  padding: 14px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: linear-gradient(90deg, #00C9A7, #2575FC);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.quick-actions a:hover {
+  background: linear-gradient(90deg, #6A11CB, #00C9A7);
+  transform: translateY(-4px);
+}
+
+/* =============== FOOTER =============== */
+footer {
+  background: linear-gradient(90deg, #6A11CB, #2575FC);
+  color: #f2f7ff;
+  text-align: center;
+  padding: 25px 0;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -3px 15px rgba(0,0,0,0.2);
+}
+
+/* =============== RESPONSIVE =============== */
+@media (max-width: 768px) {
+  header {
+    font-size: 28px;
+    padding: 30px 10px;
+  }
+  .navbar a {
+    margin: 8px 15px;
+    font-size: 15px;
+  }
+  .section-card {
+    padding: 25px 20px;
+  }
+  .quick-actions a {
+    padding: 10px 24px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    Welcome, {{ current_user.username if current_user.is_authenticated else 'Guest' }}
-  </header>
+<header>AyurSutra Patient Dashboard</header>
 
-  <!-- Flash messages -->
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div class="flash-messages">
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+<nav class="navbar">
+  <a href="{{ url_for('patient_dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('book') }}">Book Session</a>
+  <a href="{{ url_for('schedule') }}">Schedule</a>
+  <a href="{{ url_for('messages') }}">Messages</a>
+  <a href="{{ url_for('reports') }}">Reports</a>
+  <a href="{{ url_for('profile') }}">Profile</a>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
 
-  <!-- Progress Bar -->
-  <div class="progress-container">
-    <div class="progress-bar" style="width: {{ progress_percent if progress_percent is defined else 0 }}%">
-      {{ progress_percent if progress_percent is defined else 0 }}% Completed
+<main>
+  {% if profile %}
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+    <div class="profile-details">
+      <div><strong>Username:</strong> {{ profile.user.username }}</div>
+      <div><strong>Email:</strong> {{ profile.email }}</div>
+      <div><strong>First Name:</strong> {{ profile.first_name }}</div>
+      <div><strong>Last Name:</strong> {{ profile.last_name }}</div>
+      <div><strong>Gender:</strong> {{ profile.gender }}</div>
+      <div><strong>Mobile:</strong> {{ profile.mobile_number }}</div>
+      <div><strong>City:</strong> {{ profile.city }}</div>
+      <div><strong>Diet Plan:</strong> {{ profile.diet_plan }}</div>
     </div>
   </div>
+  {% endif %}
 
-  <!-- Main Sections -->
+  <div class="progress-chart-container">
+    <h3>Progress Overview</h3>
+    <canvas id="progressXYChart"></canvas>
+  </div>
+
   <div class="sections">
     <a class="section-card" href="{{ url_for('book') }}">
       <h2>Book a Session</h2>
-      <p>Schedule a new therapy session with your therapist.</p>
+      <p>Schedule your next Ayurvedic therapy session.</p>
     </a>
-
     <a class="section-card" href="{{ url_for('schedule') }}">
       <h2>View Schedule</h2>
-      <p>Check your upcoming and past appointments.</p>
+      <p>Check your upcoming and completed appointments.</p>
     </a>
-
     <a class="section-card" href="{{ url_for('messages') }}">
       <h2>Messages</h2>
-      <p>Read messages from your therapist.</p>
+      <p>Chat with your therapist for advice or updates.</p>
     </a>
-
     <a class="section-card" href="{{ url_for('reports') }}">
       <h2>Reports</h2>
-      <p>View your health progress reports and summaries.</p>
+      <p>Analyze your health progress and treatment reports.</p>
     </a>
   </div>
 
-  <!-- Quick Action Buttons -->
   <div class="quick-actions">
-    <a href="{{ url_for('book') }}">Book</a>
-    <a href="{{ url_for('schedule') }}">Schedule</a>
-    <a href="{{ url_for('messages') }}">Messages</a>
-    <a href="{{ url_for('reports') }}">Reports</a>
+    <a href="{{ url_for('book') }}">Book Now</a>
+    <a href="{{ url_for('messages') }}">Contact Therapist</a>
+    <a href="{{ url_for('reports') }}">View Reports</a>
   </div>
+</main>
 
-  <footer>
-    AyurSutra &copy; 2025
-  </footer>
+<footer>© 2025 AyurSutra | Designed for Holistic Wellness</footer>
 
+<script>
+const ctx = document.getElementById('progressXYChart').getContext('2d');
+const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+gradient.addColorStop(0, 'rgba(37,117,252,0.5)');
+gradient.addColorStop(1, 'rgba(106,17,203,0.1)');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ["01-09", "15-09", "30-09", "15-10", "30-10", "11-11"],
+    datasets: [{
+      label: "Progress %",
+      data: [0, 15, 35, 50, 70, 90],
+      fill: true,
+      backgroundColor: gradient,
+      borderColor: "#00C9A7",
+      borderWidth: 3,
+      tension: 0.4,
+      pointBackgroundColor: "#6A11CB",
+      pointBorderColor: "#fff",
+      pointRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 100, grid: { color: "rgba(0,0,0,0.05)" } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
 </body>
 </html>

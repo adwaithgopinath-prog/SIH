@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Profile - AyurSutra</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Nunito Sans', sans-serif; }
+
+body {
+  display:flex;
+  min-height:100vh;
+  background: linear-gradient(135deg, #6A11CB, #2575FC);
+}
+
+/* ---------------- Sidebar ---------------- */
+.sidebar {
+  width: 250px;
+  background: #1a1a2e;
+  color: white;
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:0; bottom:0; left:0;
+  padding-top:30px;
+  box-shadow:3px 0 15px rgba(0,0,0,0.3);
+  transition:0.3s;
+  border-top-right-radius:20px;
+  border-bottom-right-radius:20px;
+}
+.sidebar h2 {
+  text-align:center;
+  margin-bottom:30px;
+  font-size:28px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:1px;
+}
+.sidebar a {
+  text-decoration:none;
+  color:#d1d1f0;
+  padding:15px 25px;
+  font-weight:500;
+  display:block;
+  border-radius:10px;
+  margin:5px 10px;
+  transition:0.3s;
+}
+.sidebar a:hover {
+  background:#2575FC;
+  color:white;
+  transform:translateX(5px);
+}
+
+/* ---------------- Main Content ---------------- */
+.main-content {
+  margin-left:250px;
+  padding:30px 50px;
+  width:100%;
+  transition:0.3s;
+}
+
+/* ---------------- Header ---------------- */
+header {
+  background: linear-gradient(135deg, #2575FC, #6A11CB);
+  color:white;
+  padding:25px;
+  font-size:28px;
+  font-weight:700;
+  border-radius:20px;
+  margin-bottom:30px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ---------------- Flash Messages ---------------- */
+.flash-messages {
+  background: #ffe6e6;
+  color: #c62828;
+  padding:15px 25px;
+  border-radius:15px;
+  margin-bottom:25px;
+  font-weight:500;
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* ---------------- Profile Card ---------------- */
+.profile-card {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  padding:30px 35px;
+  border-radius:25px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  margin-bottom:35px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow:0 18px 35px rgba(0,0,0,0.25);
+}
+.profile-card h2 {
+  color:#2575FC;
+  margin-bottom:25px;
+  border-bottom:2px solid #6A11CB;
+  padding-bottom:12px;
+  font-size:22px;
+}
+
+/* ---------------- Form Fields ---------------- */
+.profile-info {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.profile-info label {
+  font-weight:500;
+  margin-bottom:6px;
+  display:block;
+  color:#1a1a2e;
+}
+.profile-info input, .profile-info select {
+  width:100%;
+  padding:12px 14px;
+  border-radius:15px;
+  border:1px solid #b2dfdb;
+  font-size:15px;
+  transition:0.3s;
+  background: #f0f4f8;
+}
+.profile-info input:focus, .profile-info select:focus {
+  outline:none;
+  border-color:#2575FC;
+  box-shadow:0 0 10px rgba(37,117,252,0.4);
+}
+
+/* ---------------- Submit Button ---------------- */
+button {
+  margin-top:25px;
+  padding:16px 0;
+  background: linear-gradient(90deg, #2575FC, #6A11CB);
+  color:white;
+  font-size:18px;
+  font-weight:600;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  transition:0.3s;
+  width:100%;
+  letter-spacing:1px;
+}
+button:hover {
+  background: linear-gradient(90deg, #6A11CB, #2575FC);
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* ---------------- Footer ---------------- */
+footer {
+  text-align:center;
+  padding:22px;
+  background:#1a1a2e;
+  color:white;
+  font-weight:500;
+  border-radius:20px;
+  margin-top:50px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* ---------------- Responsive ---------------- */
+@media(max-width:900px){
+  .sidebar { width:220px; }
+  .main-content { margin-left:220px; padding:25px 30px; }
+  .profile-info { grid-template-columns:1fr; }
+}
+@media(max-width:600px){
+  .sidebar { width:180px; font-size:14px; }
+  .main-content { margin-left:180px; padding:20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>AyurSutra</h2>
+  <a href="{{ url_for('patient_dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('book') }}">Book Session</a>
+  <a href="{{ url_for('schedule') }}">Schedule</a>
+  <a href="{{ url_for('messages') }}">Messages</a>
+  <a href="{{ url_for('reports') }}">Reports</a>
+  <a href="{{ url_for('profile') }}">Profile</a>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header>{{ current_user }}'s Profile</header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Editable Profile Form -->
+  <form method="POST" action="{{ url_for('profile') }}">
+    <div class="profile-card">
+      <h2>Personal Information</h2>
+      <div class="profile-info">
+        <div>
+          <label>First Name</label>
+          <input type="text" name="first_name" value="{{ profile.first_name }}">
+        </div>
+        <div>
+          <label>Last Name</label>
+          <input type="text" name="last_name" value="{{ profile.last_name }}">
+        </div>
+        <div>
+          <label>Date of Birth</label>
+          <input type="date" name="dob" value="{{ profile.dob.strftime('%Y-%m-%d') if profile.dob else '' }}">
+        </div>
+        <div>
+          <label>Gender</label>
+          <select name="gender">
+            <option value="Male" {% if profile.gender=='Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if profile.gender=='Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if profile.gender=='Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Mobile Number</label>
+          <input type="text" name="mobile_number" value="{{ profile.mobile_number }}">
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="email" name="email" value="{{ profile.email }}">
+        </div>
+        <div>
+          <label>Blood Group</label>
+          <input type="text" name="blood_group" value="{{ profile.blood_group }}">
+        </div>
+        <div>
+          <label>Marital Status</label>
+          <input type="text" name="marital_status" value="{{ profile.marital_status }}">
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" name="address" value="{{ profile.address }}">
+        </div>
+        <div>
+          <label>City</label>
+          <input type="text" name="city" value="{{ profile.city }}">
+        </div>
+        <div>
+          <label>State</label>
+          <input type="text" name="state" value="{{ profile.state }}">
+        </div>
+        <div>
+          <label>Pin Code</label>
+          <input type="text" name="pin_code" value="{{ profile.pin_code }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <h2>Medical History & Lifestyle</h2>
+      <div class="profile-info">
+        <div>
+          <label>Chronic Conditions</label>
+          <input type="text" name="chronic_conditions" value="{{ profile.chronic_conditions }}">
+        </div>
+        <div>
+          <label>Allergies</label>
+          <input type="text" name="allergies" value="{{ profile.allergies }}">
+        </div>
+        <div>
+          <label>Allergy Details</label>
+          <input type="text" name="allergy_details" value="{{ profile.allergy_details }}">
+        </div>
+        <div>
+          <label>Current Medications</label>
+          <input type="text" name="current_medications" value="{{ profile.current_medications }}">
+        </div>
+        <div>
+          <label>Supplements / Vitamins</label>
+          <input type="text" name="supplements_vitamins" value="{{ profile.supplements_vitamins }}">
+        </div>
+        <div>
+          <label>Previous Surgeries</label>
+          <input type="text" name="previous_surgeries" value="{{ profile.previous_surgeries }}">
+        </div>
+        <div>
+          <label>Previous Ayurvedic Treatments</label>
+          <input type="text" name="previous_ayurvedic_treatments" value="{{ profile.previous_ayurvedic_treatments }}">
+        </div>
+        <div>
+          <label>Exercise</label>
+          <input type="text" name="exercise" value="{{ profile.exercise }}">
+        </div>
+        <div>
+          <label>Smoking Status</label>
+          <input type="text" name="smoking_status" value="{{ profile.smoking_status }}">
+        </div>
+        <div>
+          <label>Alcohol</label>
+          <input type="text" name="alcohol" value="{{ profile.alcohol }}">
+        </div>
+        <div>
+          <label>Diet Plan</label>
+          <input type="text" name="diet_plan" value="{{ profile.diet_plan }}">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">Update Profile</button>
+  </form>
+
+  <footer>AyurSutra &copy; 2025</footer>
+</div>
+
+</body>
+</html>

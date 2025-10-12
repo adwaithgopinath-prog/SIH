@@ -9,8 +9,8 @@
 <body>
     <header>
         <nav>
-            <a href="{{ url_for('dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('patients') }}">Patients</a>
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_dashboard') }}">Patients</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
     </header>
@@ -19,30 +19,45 @@
             <h1>Add New Patient</h1>
             <form action="{{ url_for('add_patient') }}" method="POST">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="johndoe" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="johndoe@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                </div>
+
                 <div class="form-group">
                     <label for="age">Age</label>
-                    <input type="number" id="age" name="age" placeholder="35" required>
+                    <input type="number" id="age" name="age" placeholder="35">
                 </div>
+
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <select id="gender" name="gender" required>
+                    <select id="gender" name="gender">
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="contact">Contact Number</label>
-                    <input type="tel" id="contact" name="contact" placeholder="1234567890" required>
+                    <input type="tel" id="contact" name="contact" placeholder="1234567890">
                 </div>
+
                 <div class="form-group">
                     <label for="address">Address</label>
                     <textarea id="address" name="address" placeholder="Enter Address"></textarea>
                 </div>
+
                 <button type="submit">Add Patient</button>
             </form>
         </div>
