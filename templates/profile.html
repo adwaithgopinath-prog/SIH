@@ -6,197 +6,152 @@
 <title>Patient Profile - AyurSutra</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Nunito Sans', sans-serif; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
 body {
-  display:flex;
-  min-height:100vh;
-  background: linear-gradient(135deg, #6A11CB, #2575FC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2575FC, #6A11CB);
 }
 
-/* ---------------- Sidebar ---------------- */
-.sidebar {
-  width: 250px;
-  background: #1a1a2e;
-  color: white;
-  display:flex;
-  flex-direction:column;
-  position:fixed;
-  top:0; bottom:0; left:0;
-  padding-top:30px;
-  box-shadow:3px 0 15px rgba(0,0,0,0.3);
-  transition:0.3s;
-  border-top-right-radius:20px;
-  border-bottom-right-radius:20px;
-}
-.sidebar h2 {
-  text-align:center;
-  margin-bottom:30px;
-  font-size:28px;
-  font-weight:700;
-  color:#fff;
-  letter-spacing:1px;
-}
-.sidebar a {
-  text-decoration:none;
-  color:#d1d1f0;
-  padding:15px 25px;
-  font-weight:500;
-  display:block;
-  border-radius:10px;
-  margin:5px 10px;
-  transition:0.3s;
-}
-.sidebar a:hover {
-  background:#2575FC;
-  color:white;
-  transform:translateX(5px);
-}
-
-/* ---------------- Main Content ---------------- */
-.main-content {
-  margin-left:250px;
-  padding:30px 50px;
-  width:100%;
-  transition:0.3s;
+/* ---------------- Card Container ---------------- */
+.profile-container {
+  width: 90%;
+  max-width: 950px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px);
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  padding: 40px;
+  margin: 40px auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ---------------- Header ---------------- */
 header {
-  background: linear-gradient(135deg, #2575FC, #6A11CB);
-  color:white;
-  padding:25px;
-  font-size:28px;
-  font-weight:700;
-  border-radius:20px;
-  margin-bottom:30px;
-  text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
 }
 
-/* ---------------- Flash Messages ---------------- */
+/* ---------------- Flash Message ---------------- */
 .flash-messages {
-  background: #ffe6e6;
-  color: #c62828;
-  padding:15px 25px;
-  border-radius:15px;
-  margin-bottom:25px;
-  font-weight:500;
-  text-align:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+  background: rgba(255, 0, 0, 0.15);
+  border-left: 5px solid #ff5252;
+  padding: 15px 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #fff;
+  font-weight: 500;
 }
 
-/* ---------------- Profile Card ---------------- */
+/* ---------------- Profile Card Layout ---------------- */
 .profile-card {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
-  padding:30px 35px;
-  border-radius:25px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.25);
-  margin-bottom:35px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 25px 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 0.3s ease;
 }
 .profile-card:hover {
-  transform: translateY(-5px);
-  box-shadow:0 18px 35px rgba(0,0,0,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 .profile-card h2 {
-  color:#2575FC;
-  margin-bottom:25px;
-  border-bottom:2px solid #6A11CB;
-  padding-bottom:12px;
-  font-size:22px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-/* ---------------- Form Fields ---------------- */
+/* ---------------- Aadhaar-style Grid ---------------- */
 .profile-info {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
 }
 .profile-info label {
-  font-weight:500;
-  margin-bottom:6px;
-  display:block;
-  color:#1a1a2e;
+  font-weight: 500;
+  color: #e0e0e0;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
 }
-.profile-info input, .profile-info select {
-  width:100%;
-  padding:12px 14px;
-  border-radius:15px;
-  border:1px solid #b2dfdb;
-  font-size:15px;
-  transition:0.3s;
-  background: #f0f4f8;
+.profile-info input, 
+.profile-info select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
 }
-.profile-info input:focus, .profile-info select:focus {
-  outline:none;
-  border-color:#2575FC;
-  box-shadow:0 0 10px rgba(37,117,252,0.4);
+.profile-info input:focus, 
+.profile-info select:focus {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
 }
 
-/* ---------------- Submit Button ---------------- */
+/* ---------------- Button ---------------- */
 button {
-  margin-top:25px;
-  padding:16px 0;
+  display: block;
+  width: 100%;
   background: linear-gradient(90deg, #2575FC, #6A11CB);
-  color:white;
-  font-size:18px;
-  font-weight:600;
-  border:none;
-  border-radius:50px;
-  cursor:pointer;
-  transition:0.3s;
-  width:100%;
-  letter-spacing:1px;
+  border: none;
+  padding: 15px 0;
+  border-radius: 50px;
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  letter-spacing: 0.5px;
 }
 button:hover {
+  transform: translateY(-3px);
   background: linear-gradient(90deg, #6A11CB, #2575FC);
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 /* ---------------- Footer ---------------- */
 footer {
-  text-align:center;
-  padding:22px;
-  background:#1a1a2e;
-  color:white;
-  font-weight:500;
-  border-radius:20px;
-  margin-top:50px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #ddd;
 }
 
 /* ---------------- Responsive ---------------- */
-@media(max-width:900px){
-  .sidebar { width:220px; }
-  .main-content { margin-left:220px; padding:25px 30px; }
-  .profile-info { grid-template-columns:1fr; }
-}
-@media(max-width:600px){
-  .sidebar { width:180px; font-size:14px; }
-  .main-content { margin-left:180px; padding:20px; }
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 25px 20px;
+  }
 }
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-  <h2>AyurSutra</h2>
-  <a href="{{ url_for('patient_dashboard') }}">Dashboard</a>
-  <a href="{{ url_for('book') }}">Book Session</a>
-  <a href="{{ url_for('schedule') }}">Schedule</a>
-  <a href="{{ url_for('messages') }}">Messages</a>
-  <a href="{{ url_for('reports') }}">Reports</a>
-  <a href="{{ url_for('profile') }}">Profile</a>
-  <a href="{{ url_for('logout') }}">Logout</a>
-</div>
-
-<!-- Main Content -->
-<div class="main-content">
-  <header>{{ current_user }}'s Profile</header>
+<div class="profile-container">
+  <header>🪪 {{ current_user }}'s Profile</header>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -208,18 +163,18 @@ footer {
     {% endif %}
   {% endwith %}
 
-  <!-- Editable Profile Form -->
   <form method="POST" action="{{ url_for('profile') }}">
+    <!-- Personal Info -->
     <div class="profile-card">
       <h2>Personal Information</h2>
       <div class="profile-info">
         <div>
           <label>First Name</label>
-          <input type="text" name="first_name" value="{{ profile.first_name }}">
+          <input type="text" name="first_name" value="{{ profile.first_name or '' }}">
         </div>
         <div>
           <label>Last Name</label>
-          <input type="text" name="last_name" value="{{ profile.last_name }}">
+          <input type="text" name="last_name" value="{{ profile.last_name or '' }}">
         </div>
         <div>
           <label>Date of Birth</label>
@@ -235,85 +190,78 @@ footer {
         </div>
         <div>
           <label>Mobile Number</label>
-          <input type="text" name="mobile_number" value="{{ profile.mobile_number }}">
+          <input type="text" name="mobile_number" value="{{ profile.mobile_number or '' }}">
         </div>
         <div>
           <label>Email</label>
-          <input type="email" name="email" value="{{ profile.email }}">
-        </div>
-        <div>
-          <label>Blood Group</label>
-          <input type="text" name="blood_group" value="{{ profile.blood_group }}">
-        </div>
-        <div>
-          <label>Marital Status</label>
-          <input type="text" name="marital_status" value="{{ profile.marital_status }}">
+          <input type="email" name="email" value="{{ profile.email or '' }}">
         </div>
         <div>
           <label>Address</label>
-          <input type="text" name="address" value="{{ profile.address }}">
+          <input type="text" name="address" value="{{ profile.address or '' }}">
         </div>
         <div>
           <label>City</label>
-          <input type="text" name="city" value="{{ profile.city }}">
+          <input type="text" name="city" value="{{ profile.city or '' }}">
         </div>
         <div>
           <label>State</label>
-          <input type="text" name="state" value="{{ profile.state }}">
+          <input type="text" name="state" value="{{ profile.state or '' }}">
         </div>
         <div>
           <label>Pin Code</label>
-          <input type="text" name="pin_code" value="{{ profile.pin_code }}">
+          <input type="text" name="pin_code" value="{{ profile.pin_code or '' }}">
         </div>
       </div>
     </div>
 
+    <!-- Medical Details -->
     <div class="profile-card">
-      <h2>Medical History & Lifestyle</h2>
+      <h2>Medical Information</h2>
       <div class="profile-info">
         <div>
           <label>Chronic Conditions</label>
-          <input type="text" name="chronic_conditions" value="{{ profile.chronic_conditions }}">
+          <input type="text" name="chronic_conditions" value="{{ profile.chronic_conditions or '' }}">
         </div>
         <div>
           <label>Allergies</label>
-          <input type="text" name="allergies" value="{{ profile.allergies }}">
+          <input type="text" name="allergies" value="{{ profile.allergies or '' }}">
         </div>
         <div>
           <label>Allergy Details</label>
-          <input type="text" name="allergy_details" value="{{ profile.allergy_details }}">
+          <input type="text" name="allergy_details" value="{{ profile.allergy_details or '' }}">
         </div>
         <div>
           <label>Current Medications</label>
-          <input type="text" name="current_medications" value="{{ profile.current_medications }}">
+          <input type="text" name="current_medications" value="{{ profile.current_medications or '' }}">
         </div>
         <div>
           <label>Supplements / Vitamins</label>
-          <input type="text" name="supplements_vitamins" value="{{ profile.supplements_vitamins }}">
+          <input type="text" name="supplements_vitamins" value="{{ profile.supplements_vitamins or '' }}">
         </div>
         <div>
           <label>Previous Surgeries</label>
-          <input type="text" name="previous_surgeries" value="{{ profile.previous_surgeries }}">
+          <input type="text" name="previous_surgeries" value="{{ profile.previous_surgeries or '' }}">
         </div>
         <div>
           <label>Previous Ayurvedic Treatments</label>
-          <input type="text" name="previous_ayurvedic_treatments" value="{{ profile.previous_ayurvedic_treatments }}">
+          <input type="text" name="previous_ayurvedic_treatments" value="{{ profile.previous_ayurvedic_treatments or '' }}">
         </div>
         <div>
           <label>Exercise</label>
-          <input type="text" name="exercise" value="{{ profile.exercise }}">
+          <input type="text" name="exercise" value="{{ profile.exercise or '' }}">
         </div>
         <div>
           <label>Smoking Status</label>
-          <input type="text" name="smoking_status" value="{{ profile.smoking_status }}">
+          <input type="text" name="smoking_status" value="{{ profile.smoking_status or '' }}">
         </div>
         <div>
           <label>Alcohol</label>
-          <input type="text" name="alcohol" value="{{ profile.alcohol }}">
+          <input type="text" name="alcohol" value="{{ profile.alcohol or '' }}">
         </div>
         <div>
           <label>Diet Plan</label>
-          <input type="text" name="diet_plan" value="{{ profile.diet_plan }}">
+          <input type="text" name="diet_plan" value="{{ profile.diet_plan or '' }}">
         </div>
       </div>
     </div>
