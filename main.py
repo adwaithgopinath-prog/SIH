@@ -11,13 +11,13 @@ from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import logging
-
+import os
 # ----------------------
 # App setup
 # ----------------------
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///database.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 2525
@@ -706,4 +706,5 @@ def reset_password(token):
 # Run App
 # ----------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    
