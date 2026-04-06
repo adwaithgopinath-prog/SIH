@@ -1,102 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AyurSutra - Dashboard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #00695c;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-    nav {
-      background: #004d40;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover { text-decoration: underline; }
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-    }
-    th { background: #00695c; color: white; }
-    tr:hover { background: #f1f1f1; }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Welcome, {{ username }}!</h1>
-  </header>
+{% extends "base.html" %}
 
-  <nav>
-    <a href="{{ url_for('dashboard') }}">Dashboard</a>
-    {% if role == 'patient' %}
-      <a href="{{ url_for('book') }}">Book Session</a>
-    {% endif %}
-    <a href="{{ url_for('logout') }}">Logout</a>
-  </nav>
+{% block title %}Patient Dashboard | AyurSutra{% endblock %}
 
-  <div class="container">
-    <h2>Your Bookings</h2>
-    {% if bookings %}
-      <table>
-        <thead>
-          <tr>
-            {% if role == 'patient' %}
-              <th>Therapist</th>
-            {% else %}
-              <th>Patient</th>
-            {% endif %}
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
+{% block content %}
+<div class="page-header animate-fade-in">
+  <div class="page-title">
+    <h1>Dashboard Overflow</h1>
+    <p>Welcome back, {{ username }}! Here's your wellness overview.</p>
+  </div>
+  <a href="{{ url_for('book') }}" class="btn btn-primary"><i data-lucide="plus"></i> New Booking</a>
+</div>
+
+<div class="stats-grid animate-fade-in" style="animation-delay: 0.1s;">
+  <div class="card stat-card">
+    <div class="stat-header">
+      <div class="stat-icon"><i data-lucide="calendar-days"></i></div>
+      <div class="badge badge-info">Active</div>
+    </div>
+    <div class="stat-value">{{ bookings | length if bookings else 0 }}</div>
+    <div class="stat-label">Total Bookings</div>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-header">
+      <div class="stat-icon" style="color: var(--secondary);"><i data-lucide="heart"></i></div>
+      <div class="badge badge-success">Good</div>
+    </div>
+    <div class="stat-value">92%</div>
+    <div class="stat-label">Adherence Score</div>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-header">
+      <div class="stat-icon" style="color: var(--accent);"><i data-lucide="zap"></i></div>
+      <div class="badge badge-warning">Insight</div>
+    </div>
+    <div class="stat-value">4</div>
+    <div class="stat-label">Unread Reports</div>
+  </div>
+</div>
+
+<div class="card animate-fade-in" style="animation-delay: 0.2s; margin-top: 2rem;">
+  <div style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light);">
+    <h3 style="font-size: 1.25rem;">Recent Bookings</h3>
+    <button class="btn btn-sm" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; background: var(--bg-page); border: 1px solid var(--border);">View All</button>
+  </div>
+
+  <div class="table-container" style="border: none;">
+    <table>
+      <thead>
+        <tr>
+          <th>Therapist</th>
+          <th>Date & Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if bookings %}
           {% for b in bookings %}
           <tr>
-            {% if role == 'patient' %}
-              <td>{{ b.therapist.username }}</td>
-            {% else %}
-              <td>{{ b.patient.username }}</td>
-            {% endif %}
-            <td>{{ b.start_time.strftime("%Y-%m-%d %H:%M") }}</td>
-            <td>{{ b.end_time.strftime("%Y-%m-%d %H:%M") }}</td>
-            <td>{{ b.status }}</td>
+            <td style="display: flex; align-items: center; gap: 0.75rem;">
+              <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">{{ b.therapist.username[0] | upper }}</div>
+              <span style="font-weight: 600;">Dr. {{ b.therapist.username }}</span>
+            </td>
+            <td>{{ b.start_time.strftime("%d %b %Y, %I:%M %p") }}</td>
+            <td>
+              <span class="badge badge-{{ 'success' if b.status == 'confirmed' else 'warning' }}">
+                {{ b.status | capitalize }}
+              </span>
+            </td>
+            <td>
+              <button style="background: none; border: none; color: var(--text-light); cursor: pointer;"><i data-lucide="more-vertical"></i></button>
+            </td>
           </tr>
           {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <p>No bookings yet.</p>
-    {% endif %}
+        {% else %}
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-light);">
+              No active bookings found. <a href="{{ url_for('book') }}" style="color: var(--primary); font-weight: 600;">Book now</a>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
   </div>
-</body>
-</html>
+</div>
+{% endblock %}

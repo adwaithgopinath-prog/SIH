@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}AyurSutra | Modern Panchakarma Management{% endblock %}
+
+{% block content %}
+<section class="hero animate-fade-in">
+  <div class="hero-content">
+    <div class="hero-tag">Transforming Ayurvedic Care</div>
+    <h1>Personalized Wellness <br><span>Driven by Tech</span></h1>
+    <p>AyurSutra is a next-gen Panchakarma patient management platform. Seamless scheduling, real-time therapy insights, and secure clinical records—all in one place.</p>
+    
+    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;">
+      <a href="{{ url_for('login') }}" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1rem;">Get Started <i data-lucide="arrow-right"></i></a>
+      <a href="#features" class="btn" style="background: white; border: 1px solid var(--border); padding: 1rem 2.5rem;">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding: 4rem 0;">
+  <div class="page-header" style="justify-content: center; text-align: center;">
+    <div class="page-title">
+      <h1>Key Features</h1>
+      <p>Purpose-built for modern Ayurvedic clinics and wellness centers.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="card stat-card">
+      <div class="stat-icon"><i data-lucide="calendar"></i></div>
+      <div class="stat-label">Smart Scheduling</div>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">Real-time availability and therapy room allocation.</p>
+    </div>
+    
+    <div class="card stat-card">
+      <div class="stat-icon"><i data-lucide="shield-check"></i></div>
+      <div class="stat-label">Secure Clinical Records</div>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">Encrypted storage for patient history and Prakriti analysis.</p>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-icon"><i data-lucide="activity"></i></div>
+      <div class="stat-label">Progress Analytics</div>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">Visual health trends and therapy outcome tracking.</p>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-icon"><i data-lucide="message-circle"></i></div>
+      <div class="stat-label">Direct Messaging</div>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">Seamless communication between patients and therapists.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 4rem 0; background: var(--border-light); border-radius: var(--radius-2xl); margin-top: 4rem;">
+  <div class="page-header" style="justify-content: center; text-align: center;">
+    <div class="page-title">
+      <h1>Meet the Developers</h1>
+      <p>The talented minds behind AyurSutra - SIH 2024 Interns.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div class="card" style="text-align: center; padding: 2rem;">
+      <div class="user-avatar" style="width: 80px; height: 80px; margin: 0 auto 1.5rem; font-size: 1.5rem; font-weight: 800;">AG</div>
+      <h3>Adwaith Gopinath</h3>
+      <p style="color: var(--primary-dark); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">Full-Stack Developer</p>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Specializing in backend architecture and clinical workflow optimization.</p>
+      <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+        <i data-lucide="github" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+        <i data-lucide="linkedin" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+        <i data-lucide="twitter" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+      </div>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 2rem;">
+      <div class="user-avatar" style="width: 80px; height: 80px; margin: 0 auto 1.5rem; font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, var(--secondary), #ec4899);">SK</div>
+      <h3>Saanvi Kapoor</h3>
+      <p style="color: var(--primary-dark); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">UI/UX Designer</p>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Crafting intuitive wellness experiences for both patients and practitioners.</p>
+      <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+        <i data-lucide="github" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+        <i data-lucide="linkedin" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+        <i data-lucide="twitter" style="width: 18px; color: var(--text-light); cursor: pointer;"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top: 6rem; padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: center;">
+  <p style="color: var(--text-muted); font-size: 0.875rem;">&copy; 2024 AyurSutra. An SIH Internship Collaboration Project.</p>
+</footer>
+
+{% endblock %}

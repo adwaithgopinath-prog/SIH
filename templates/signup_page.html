@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}AyurSutra | Create Your Account{% endblock %}
+
+{% block content %}
+<div style="max-width: 440px; margin: 4rem auto;" class="animate-fade-in">
+  <div class="card" style="padding: 2.5rem; box-shadow: var(--shadow-xl);">
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+        <i data-lucide="leaf" style="color: var(--primary);"></i>
+        <span>AyurSutra</span>
+      </div>
+      <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Join AyurSutra</h2>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Your path to wellness starts here.</p>
+    </div>
+
+    <form method="POST">
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <div style="position: relative;">
+          <input type="text" id="username" name="username" class="form-control" placeholder="john.doe" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div style="position: relative;">
+          <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 2rem;">
+        <label for="role" class="form-label">Account Type</label>
+        <select id="role" name="role" class="form-control" style="appearance: none;">
+          <option value="patient">Patient / Wellness Seeker</option>
+          <option value="therapist">Professional Therapist</option>
+          <option value="admin">Clinic Administrator</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; font-size: 1rem;">Create Account</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary); font-weight: 600;">Sign in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
