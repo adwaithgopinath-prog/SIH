@@ -52,7 +52,7 @@ This will recreate the database with the following test credentials:
 ### 4. Running the App
 Launch the development server:
 ```bash
-python app.py
+.\.venv\Scripts\python.exe app.py
 ```
 Navigate to `http://127.0.0.1:5000` in your browser.
 
@@ -63,7 +63,7 @@ Navigate to `http://127.0.0.1:5000` in your browser.
 This project was developed as part of an **SIH Internship Collaboration** by:
 
 - **Adwaith Gopinath** - Full-Stack Backend Architecture
-- **Saanvi Kapoor** - Lead UI/UX & Design Systems
+- **Gaura Pathak** - Lead UI/UX & Design Systems
 
 ---
 
